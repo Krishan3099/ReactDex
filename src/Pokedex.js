@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import mockData from './mockData'
+import { toFirstCharUppercase } from './constants'
 import { 
   AppBar,
   Toolbar,
@@ -27,8 +28,6 @@ const useStyles = makeStyles({
   },
 })
 
-const toFirstCharUppercase = name => 
-  name.charAt(0).toUpperCase() + name.slice(1)
 
 const Pokedex = () => {
   const classes = useStyles()
@@ -42,7 +41,7 @@ const Pokedex = () => {
     console.log(sprite)
     return(
       <Grid item xs={12} sm={4} key={pokemonId}>
-        <Card>
+        <Card onClick = {() => history.push(`$/{pokemonId}`)}>
           <CardMedia 
             className={classes.cardMedia}
             image={sprite}
