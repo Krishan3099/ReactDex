@@ -36,6 +36,14 @@ const useStyles = makeStyles(theme => ({
     paddingRight: '20px',
     marginTop: '5px',
     marginBottom: '5px',
+  },
+  searchIcon: {
+    alignSelf: 'flex-end',
+    marginBottom: '5px',
+  },
+  searchInput: {
+    width: '200px',
+    margin: '5px',
   }
 }))
 
@@ -44,7 +52,11 @@ const Pokedex = () => {
   const nav = useNavigate()
   const classes = useStyles()
   const [pokemonData, setPokemonData] = useState(undefined)
+  const [filter, setFilter] = useState('')
   
+  const handleSearchChange = (e) => {
+    setFilter(e.target.value)
+  }
 
   useEffect(() => {
     axios
@@ -90,15 +102,21 @@ const Pokedex = () => {
         <Toolbar>
           <div className={classes.searchContainer}>
             <SearchIcon className={classes.searchIcon}/>
-            <TextField className={classes.textInput}/>
+            <TextField 
+              className={classes.searchInput}
+              label='Pokemon'
+              variant='standard'
+              onChange={handleSearchChange}
+            />
           </div>
         </Toolbar>
       </AppBar>
       {pokemonData ? (
         <Grid container spacing={2} className={classes.pokedexContainer}>
         {Object.keys(pokemonData).map(pokemonId => 
+          pokemonData[pokemonId].name.includes(filter) &&
           getPokemonCard(pokemonId)
-          )}
+        )}
       </Grid>
       ) : (
         <CircularProgress />
